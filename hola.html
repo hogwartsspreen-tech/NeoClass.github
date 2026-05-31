@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoClass | NY Night Productivity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="hola.js"></script>
+    <link rel="stylesheet" href="hola.css">
+</head>
+<body>
+    <div class="ambient-background">
+        <video autoplay loop muted playsinline class="bg-video">
+            <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4">
+        </video>
+        <div class="city-lights"></div>
+        <div class="rain-overlay"></div>
+    </div>
+
+    <audio id="pomodoro-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+    <div id="login-view" class="view active">
+        <div class="glass-panel login-card">
+            <h1 class="logo-text">NeoClass</h1>
+            <p class="subtitle" id="auth-subtitle">Focus mode: On. Welcome back.</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Contraseña" required>
+                </div>
+                <p id="login-error" class="error-msg"></p>
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+                <p class="auth-toggle">¿No tienes cuenta? <span id="btn-show-register">Regístrate aquí</span></p>
+            </form>
+
+            <form id="register-form" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="reg-username" placeholder="Nombre de usuario" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Contraseña" required minlength="6">
+                </div>
+                <p id="reg-error" class="error-msg"></p>
+                <button type="submit" class="btn-primary">Crear Cuenta</button>
+                <p class="auth-toggle">¿Ya tienes cuenta? <span id="btn-show-login">Inicia Sesión</span></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-view" class="view">
+        <nav class="sidebar glass-panel">
+            <div class="brand-container">
+                <i class="fas fa-bolt animated-icon"></i>
+                <h2 class="logo-text nav-logo">NeoClass</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li data-target="dashboard" class="active"><i class="fas fa-border-all"></i> <span class="nav-text">Dashboard</span></li>
+                <li data-target="tasks"><i class="fas fa-check-square"></i> <span class="nav-text">Tareas</span></li>
+                <li data-target="pomodoro"><i class="fas fa-clock"></i> <span class="nav-text">Pomodoro</span></li>
+                <li data-target="calendar"><i class="fas fa-calendar-alt"></i> <span class="nav-text">Calendario</span></li>
+            </ul>
+            <div class="nav-profile">
+                <img id="user-avatar" src="https://ui-avatars.com/api/?name=NC&background=7B61FF&color=fff" alt="Avatar" class="avatar-img">
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section id="dashboard" class="content-section active">
+                <header class="section-header">
+                    <h2 id="greeting">Buenas noches, Scholar.</h2>
+                    <p class="date-text" id="current-date"></p>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="glass-panel widget gamification">
+                        <div class="level-info">
+                            <h3>Nivel <span id="user-level">1</span>: <span class="badge">Night Scholar</span></h3>
+                            <p>XP: <span id="user-xp">0</span> / 1000</p>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="xp-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel widget quote-widget">
+                        <p class="quote">"La ciudad nunca duerme, tu ambición tampoco."</p>
+                    </div>
+
+                    <div class="glass-panel widget tasks-summary">
+                        <h3>Tareas Pendientes</h3>
+                        <ul id="quick-task-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tasks" class="content-section">
+                <header class="section-header">
+                    <h2>Gestor de Tareas</h2>
+                </header>
+                <div class="glass-panel task-container">
+                    <form id="task-form">
+                        <input type="text" id="task-input" placeholder="Añadir nueva tarea..." required>
+                        <input type="date" id="task-date" required title="Fecha límite">
+                        <button type="submit" class="btn-icon"><i class="fas fa-plus"></i></button>
+                    </form>
+                    <ul id="main-task-list" class="task-list"></ul>
+                </div>
+            </section>
+
+            <section id="pomodoro" class="content-section">
+                <div class="pomodoro-wrapper">
+                    <div class="glass-panel pomodoro-card">
+                        <h2>Focus Timer</h2>
+                        <div class="timer-display" id="timer-display">25:00</div>
+                        <div class="timer-controls">
+                            <button id="btn-start" class="btn-primary">Start</button>
+                            <button id="btn-pause" class="btn-secondary">Pause</button>
+                            <button id="btn-reset" class="btn-secondary"><i class="fas fa-redo"></i></button>
+                        </div>
+                        <p class="timer-status" id="timer-status">Modo: Estudio</p>
+                        
+                        <div class="bg-sound-container">
+                            <button id="btn-bg-sound" class="btn-secondary btn-audio">
+                                <i class="fas fa-play"></i> Sonido de Fondo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="calendar" class="content-section">
+                <header class="section-header">
+                    <h2>Calendario Académico</h2>
+                </header>
+                <div class="glass-panel calendar-container">
+                    <div class="calendar-header">
+                        <button class="btn-icon" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="month-year">Cargando...</h3>
+                        <button class="btn-icon" id="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
